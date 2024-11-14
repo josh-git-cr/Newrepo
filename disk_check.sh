@@ -29,14 +29,14 @@ prev_read=$(cat /proc/diskstats |grep "$DISK" | awk '{print $6}' | head -n 1)
 prev_write=$(cat /proc/diskstats |grep "$DISK" | awk '{print $10}' | head -n 1)
 total_read_mb=0
 total_write_mb=0
-Sector= blkid /dev/$DISK | grep -o 'BLOCK_SIZE="[0-9]*"' | cut -d'"' -f2  
+Sector= $(blkid /dev/$DISK | grep -o 'BLOCK_SIZE="[0-9]*"' | cut -d'"' -f2)
 echo "$Sector"
 echo "$prev_read"
 echo "$prev_write"
 
 while true; do 
-current_read=$(cat /proc/diskstats |grep "$DISK" | awk '{print $6}')
-current_write=$(cat /proc/diskstats |grep "$DISK" | awk '{print $10}')
+current_read=$(cat /proc/diskstats | grep "$DISK" | awk '{print $6}')
+current_write=$(cat /proc/diskstats | grep "$DISK" | awk '{print $10}')
 
 New_read_sectors=$((current_read - prev_read))
 New_write_sectors=$((current_write - prev_write))
